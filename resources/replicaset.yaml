@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: rs-demo
+  labels:
+    app: rs-demo
+spec:
+  # modify replicas according to your case
+  replicas: 2
+  selector:
+    matchLabels:
+      app: rs-demo
+  template:
+    metadata:
+      labels:
+        app: rs-demo
+    spec:
+      containers:
+        - name: hello-ctr
+          image: gcr.io/sandbox-testing-215308/ftwa-infra:test
+
+# kubectl apply -f replicaset.yaml
+# kubectl get rs
+# kubectl get pods
+# kubectl delete -f replicaset.yaml
+

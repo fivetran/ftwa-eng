@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-demo-<your name>
+spec:
+  containers:
+    - name: hello-container
+      image: gcr.io/fivetran-wild-west/ftwa-infra:<your name>
+      resources:
+        limits:
+          memory: "200Mi"
+        requests:
+          memory: "100Mi"
+
+# cd resources
+# kubectl config current-context
+# kubectl apply -f pod.yaml
+# kubectl get pod/pod-demo-<your name>
+# kubectl describe pod/pod-demo-<your name>
+# kubectl logs pod-demo-<your name>
+# kubectl delete pod pod-demo-<your name>

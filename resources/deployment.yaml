@@ -1,0 +1,27 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: deploy-demo-<your name>
+spec:
+  replicas: 3
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: hello-world
+    spec:
+      containers:
+        - name: hello-container
+          image: gcr.io/fivetran-wild-west/ftwa-infra:<your name>
+
+# kubectl apply -f deployment.yaml
+# kubectl describe deployment/deploy-demo-<your name>
+# kubectl set image deployment/deploy-demo-<your name> hello-container=gcr.io/fivetran-wild-west/ftwa-infra:test --record
+# kubectl rollout status deployment deploy-demo-<your name>
+# kubectl rollout history deployment deploy-demo-<your name>
+# kubectl rollout undo deployment deploy-demo-<your name> --to-revision=1
