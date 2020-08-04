@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-<your name>
+spec:
+  template:
+    spec:
+      containers:
+        - name: hello-container
+          image: gcr.io/fivetran-wild-west/ftwa-infra:india
+          resources:
+            limits:
+              memory: "200Mi"
+            requests:
+              memory: "100Mi"
+      restartPolicy: Never
+  backoffLimit: 0
+
+# gcloud auth login
+# gcloud container clusters get-credentials demo-cluster --zone us-central1-c --project fivetran-wild-west
+# kubectl config current-context
+# kubectl apply -f job.yaml
+# kubectl get jobs/job-<your name>
+# kubectl describe jobs/job-<your name>
+# kubectl logs  <pod name>
+# kubectl exec  <pod name> -- ps -ef
+# kubectl exec  <pod name> -- jstack -l 1 > thread_dump.txt
+# kubectl delete job job-<your name>
