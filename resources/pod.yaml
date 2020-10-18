@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: pod-libdontdie-test
+  name: pod-libdontdie-base-test
 spec:
   containers:
     - name: hello-container
-      image: gcr.io/sandbox-testing-215308/libdontdie:test
+      image: gcr.io/sandbox-testing-215308/libdontdie_base:test
       imagePullPolicy: Always
       env:
        - name: LD_PRELOAD
