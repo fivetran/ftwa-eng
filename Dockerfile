@@ -1,4 +1,4 @@
-FROM gcr.io/sandbox-testing-215308/openjdk:8u242-libdontdie
+FROM gcr.io/sandbox-testing-215308/openjdk:8u242-libkeepalive
 COPY binary_deploy.jar app.jar
 RUN apt-get update && \
     apt-get -y install net-tools tcpdump

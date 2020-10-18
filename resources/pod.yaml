@@ -1,23 +1,21 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: pod-libdontdie-base-test
+  name: pod-libkeepalive-base-test
 spec:
   containers:
     - name: hello-container
-      image: gcr.io/sandbox-testing-215308/libdontdie_base:test
+      image: gcr.io/sandbox-testing-215308/libkeepalive_base:test
       imagePullPolicy: Always
       env:
        - name: LD_PRELOAD
-         value: "/usr/lib/libdontdie.so"
-       - name: DD_TCP_KEEPALIVE_PROBES
+         value: "/usr/lib/libkeepalive.so"
+       - name: KEEPCNT
          value: "5"
-       - name: DD_TCP_KEEPALIVE_TIME
+       - name: KEEPIDLE
          value: "60"
-       - name: DD_TCP_KEEPALIVE_INTVL
+       - name: KEEPINTVL
          value: "60"
-       - name: DD_EVAL_ENVIRONMENT_ONCE
-         value: "1"
   restartPolicy: OnFailure
 
 # cd resources
