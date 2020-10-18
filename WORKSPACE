@@ -11,6 +11,23 @@ http_archive(
     url = "https://github.com/bazelbuild/rules_jvm_external/archive/%s.zip" % RULES_JVM_EXTERNAL_TAG,
 )
 
+
+
+load("@rules_jvm_external//:defs.bzl", "maven_install")
+
+maven_install(
+    artifacts = [
+            "org.glassfish.hk2.external:jakarta.inject:2.6.1",
+            "org.glassfish.jersey.core:jersey-client:2.31",
+            "org.glassfish.jersey.inject:jersey-hk2:2.31",
+
+    ],
+    repositories = [
+        "https://jcenter.bintray.com/",
+        "https://repo1.maven.org/maven2",
+    ],
+)
+
 # Docker
 http_archive(
     name = "io_bazel_rules_docker",
@@ -31,6 +48,12 @@ load(
     "container_image",
     "container_pull",
     "container_push",
+)
+container_pull(
+    name = "java_8_base",
+    registry = "gcr.io/fivetran-donkeys",
+    repository = "openjdk",
+    tag = "8u242",
 )
 
 load(

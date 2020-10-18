@@ -6,7 +6,11 @@ java_library(
     name = "main",
     srcs = glob(["src/main/java/com/example/myproject/*.java"]),
     visibility = ["//visibility:public"],
-    deps = [],
+    deps = [
+        "@maven//:jakarta_ws_rs_jakarta_ws_rs_api",
+        "@maven//:org_glassfish_jersey_inject_jersey_hk2",
+        "@maven//:org_glassfish_jersey_core_jersey_client",
+            ],
 )
 java_binary(
     name = "binary",
@@ -21,6 +25,7 @@ load("@io_bazel_rules_docker//container:container.bzl", "container_image")
 ### docker image build
 java_image(
     name = "docker_image",
+    base = "@java_8_base//image",
     jvm_flags = [],
     main_class = "com.example.myproject.App",
     tags = ["manual"],
@@ -33,6 +38,9 @@ container_image(
     name = "docker_image_with_creation_time",
     base = ":docker_image",
     stamp = True,
+    symlinks = {
+        "/usr/bin": "/usr/local/openjdk-8/bin",
+    },
     tags = ["manual"],
 )
 
@@ -41,7 +49,7 @@ container_push(
     format = "Docker",
     image = ":docker_image_with_creation_time",
     registry = "gcr.io",
-    repository = "fivetran-wild-west/ftwa-infra",
+    repository = "sandbox-testing-215308/ftwa-infra",
     tag = "$(tag_name)",
     tags = ["manual"],
 )
@@ -49,7 +57,7 @@ container_push(
 # bazel run //:push_container  --define tag_name=<your name>
 # docker pull gcr.io/fivetran-wild-west/ftwa-infra:<your name>
 # docker inspect gcr.io/fivetran-wild-west/ftwa-infra:<your name>
-# docker run -d --name test-container -t gcr.io/fivetran-wild-west/ftwa-infra:<your name>
+# docker run -d --name test-container -t gcr.io/sandbox-testing-215308/ftwa-infra:<your name>
 # docker ps
 # docker logs test-container
 # docker stop test-container

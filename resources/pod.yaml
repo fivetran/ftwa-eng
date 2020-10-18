@@ -1,16 +1,22 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: pod-demo-<your name>
+  name: pod-keepalive-test
 spec:
   containers:
     - name: hello-container
-      image: gcr.io/fivetran-wild-west/ftwa-infra:<your name>
-      resources:
-        limits:
-          memory: "200Mi"
-        requests:
-          memory: "100Mi"
+      image: gcr.io/sandbox-testing-215308/libkeepalive:test
+      imagePullPolicy: Always
+      env:
+       - name: LD_PRELOAD
+         value: "/usr/lib/libkeepalive.so"
+       - name: KEEPCNT
+         value: "5"
+       - name: KEEPIDLE
+         value: "60"
+       - name: KEEPINTVL
+         value: "60"
+  restartPolicy: OnFailure
 
 # cd resources
 # kubectl config current-context
@@ -19,3 +25,4 @@ spec:
 # kubectl describe pod/pod-demo-<your name>
 # kubectl logs pod-demo-<your name>
 # kubectl delete pod pod-demo-<your name>
+# tcpdump -i eth0 dst 35.226.98.122
